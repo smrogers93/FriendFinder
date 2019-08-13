@@ -244,8 +244,8 @@
         $.post("api/survey", newFriend,
             function(data) {
                 if (data) {
-                    $("#modal-image").text(data.image)
-                    $("#modal-name").text(data.name)
+                    $("#modal-image").html(data.image)
+                    $("#modal-name").html(data.name)
                 }
                 else {
                     alert("Sorry, you have no friends...")
