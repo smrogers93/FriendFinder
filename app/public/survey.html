@@ -17,7 +17,7 @@
                 <div class="input-group-prepend">
                     <span class="input-text" id="basic-addon1"></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+                <input type="text" id="name" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
             </div> 
 
             <h6>Image Link (Required)</h6>
@@ -25,7 +25,7 @@
                 <div class="input-group-prepend">
                     <span class="input-text" id="basic-addon1"></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+                <input type="text" id="image" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
             </div> 
             <hr>
 
@@ -188,8 +188,32 @@
                       <label class="input-text" for="inputGroupSelect10"></label>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary submit">Submit</button>
+                  <button type="submit" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary submit">Submit</button>
         </div>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div id="modal-name">
+
+                  </div>
+                  <div id="modal-image">
+                    
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </body>
 </html>
 
@@ -199,16 +223,20 @@
         event.preventDefault()
 
         var newFriend = {
-            q1: $("#inputGroupSelect01").val().trim(),
-            q2: $("#inputGroupSelect02").val().trim(),
-            q3: $("#inputGroupSelect03").val().trim(),
-            q4: $("#inputGroupSelect04").val().trim(),
-            q5: $("#inputGroupSelect05").val().trim(),
-            q6: $("#inputGroupSelect06").val().trim(),
-            q7: $("#inputGroupSelect07").val().trim(),
-            q8: $("#inputGroupSelect08").val().trim(),
-            q9: $("#inputGroupSelect09").val().trim(),
-            q10: $("#inputGroupSelect10").val().trim()
+            name: $("#name").val().trim(),
+            image: $("#image").val().trim(),
+             questions: [
+              $("#inputGroupSelect01").val().trim(),
+              $("#inputGroupSelect02").val().trim(),
+              $("#inputGroupSelect03").val().trim(),
+              $("#inputGroupSelect04").val().trim(),
+              $("#inputGroupSelect05").val().trim(),
+              $("#inputGroupSelect06").val().trim(),
+              $("#inputGroupSelect07").val().trim(),
+              $("#inputGroupSelect08").val().trim(),
+              $("#inputGroupSelect09").val().trim(),
+              $("#inputGroupSelect10").val().trim()
+            ]
         }
 
         console.log(newFriend)
@@ -216,7 +244,8 @@
         $.post("api/survey", newFriend,
             function(data) {
                 if (data) {
-                    alert("You have friends!")
+                    $("#modal-image").text(data.image)
+                    $("#modal-name").text(data.name)
                 }
                 else {
                     alert("Sorry, you have no friends...")
